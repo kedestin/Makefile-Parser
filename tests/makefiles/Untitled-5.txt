@@ -1,0 +1,127 @@
+# SPDX-License-Identifier:
+_all:
+# Most importantly:
+#	$(Q)ln $@ :
+# For example, you can do this:
+$(lastword $(MAKEFILE_LIST)):
+$(filter-out _all sub-make $(lastword $(MAKEFILE_LIST)), $(MAKECMDGOALS)) _all:
+sub-make:
+$(filter-out __build_one_by_one, $(MAKECMDGOALS)):
+__build_one_by_one:
+# ARCH can be set during invocation of make:
+# Note:
+scripts_basic:
+outputmakefile:
+config:
+%config:
+# If building an external module we do not care about the all:
+_all:
+_all:
+# The all:
+all:
+$(KCONFIG_CONFIG):
+%/auto.conf %/auto.conf.cmd %/tristate.conf:
+include/config/auto.conf:
+# Quiet clang warning:
+autoksyms_recursive:
+$(autoksyms_h):
+vmlinux:
+$(sort $(vmlinux-deps)):
+$(vmlinux-dirs):
+include/config/kernel.release:
+scripts:
+# and if so do:
+prepare3:
+archprepare:
+prepare0:
+prepare:
+asm-generic:
+uapi-asm-generic:
+prepare-objtool:
+$(version_h):
+include/generated/utsrelease.h:
+headerdep:
+headers_install:
+headers:
+headers_check:
+prepare:
+all:
+scripts_unifdef:
+kselftest:
+kselftest-clean:
+kselftest-merge:
+%.dtb:
+dtbs dtbs_check:
+dtbs_check:
+dtbs_check:
+dtbs_install:
+all:
+scripts_dtc:
+dt_binding_check:
+all:
+modules:
+modules.order:
+modules.builtin:
+$(modbuiltin-dirs):
+modules_prepare:
+modules_install:
+_modinst_:
+_modinst_post:
+modules_sign:
+modules modules_install:
+clean:
+clean:
+$(clean-dirs):
+vmlinuxclean:
+clean:
+mrproper:
+mrproper:
+$(mrproper-dirs):
+mrproper:
+distclean:
+distclean:
+distclean:
+%src-pkg:
+%pkg:
+help:
+help-boards:
+$(help-board-dirs):
+$(DOC_TARGETS):
+scripts_gdb:
+all:
+$(objtree)/Module.symvers:
+$(module-dirs):
+modules:
+modules_install:
+_emodinst_:
+_emodinst_post:
+$(clean-dirs):
+clean:
+help:
+clean:
+tags TAGS cscope gtags:
+includecheck:
+versioncheck:
+coccicheck:
+namespacecheck:
+export_report:
+checkstack:
+kernelrelease:
+kernelversion:
+image_name:
+tools/:
+tools/%:
+# Single targets are compatible with:
+%.i:
+%.ll:
+%.lst:
+%.o:
+%.s:
+%.symtypes:
+%.ko:
+%.ko:
+/:
+%/:
+FORCE:
+testerooni:
+.PHONY:

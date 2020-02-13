@@ -1,0 +1,30 @@
+#!/bin/sh
+
+
+PYTHON=${1:-python3}
+VENV=venv
+
+
+if ! $PYTHON -c 'import sys; assert sys.version_info >= (3, 5, 2)' 2>&1; then
+        echo "Error: $PYTHON version too low. (Must be atleast 3.5.2)"
+        exit 1
+fi
+
+if ! $PYTHON -c 'import virtualenv'; then
+        echo "--- Installing virtualenv ---"
+        $PYTHON -m pip install virtualenv || exit 1
+fi
+
+if [ ! -d "$VENV" ]; then 
+        echo "--- Initializing virtualenv for project ---"
+        $PYTHON -m virtualenv --python "$PYTHON" "$VENV" || exit 1
+fi
+
+
+. "$VENV/bin/activate" || exit 1
+
+if ! pip install -qr requirements.txt; then
+        echo "Error installing dependencies"
+        exit 1
+fi
+

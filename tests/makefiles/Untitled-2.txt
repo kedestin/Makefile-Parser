@@ -1,0 +1,128 @@
+$($(quiet)$(cmd))
+$(findstring s,$(filter-out --%,$(MAKEFLAGS)))
+$(shell mkdir -p $(KBUILD_OUTPUT) && cd $(KBUILD_OUTPUT) && pwd)
+$(if $(abs_objtree),, \
+     $(error failed to create output directory "$(KBUILD_OUTPUT)"))
+$(realpath $(abs_objtree))
+$(realpath $(dir $(lastword $(MAKEFILE_LIST))))
+$(words $(subst :, ,$(abs_srctree)))
+$(filter 3.%,$(MAKE_VERSION))
+$(lastword $(MAKEFILE_LIST))
+$(filter-out _all sub-make $(lastword $(MAKEFILE_LIST)), $(MAKECMDGOALS))
+$(warning (Do not forget the trailing slash))
+$(dir $(abs_objtree))
+$(filter $(no-dot-config-targets), $(MAKECMDGOALS))
+$(filter-out $(no-dot-config-targets), $(MAKECMDGOALS))
+$(filter $(no-sync-config-targets), $(MAKECMDGOALS))
+$(filter-out $(no-sync-config-targets), $(MAKECMDGOALS))
+$(filter config %config,$(MAKECMDGOALS))
+$(words $(MAKECMDGOALS))
+$(filter $(clean-targets),$(MAKECMDGOALS))
+$(filter-out $(clean-targets),$(MAKECMDGOALS))
+$(filter install,$(MAKECMDGOALS))
+$(filter modules_install,$(MAKECMDGOALS))
+$(filter-out __build_one_by_one, $(MAKECMDGOALS))
+$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))
+$(shell if [ -x "$$BASH" ]; then echo $$BASH; \
+	  else if [ -x /bin/bash ]; then echo /bin/bash; \
+	  else echo sh; fi ; fi)
+$(if $(building_out_of_srctree),-I$(srctree)/include)
+$(shell $(CC) --version 2>&1 | head -n 1 | grep clang)
+$(notdir $(CROSS_COMPILE:%-=%))
+$(dir $(shell which $(CROSS_COMPILE)elfedit))
+$(realpath $(GCC_TOOLCHAIN_DIR)/..)
+$(shell $(AS) --version 2>&1 | head -n 1 | grep clang)
+$(shell $(CC) --version 2>/dev/null | head -n 1)
+$(if $(CONFIG_MODVERSIONS),1)
+$(filter all _all modules,$(MAKECMDGOALS))
+$(call cc-option,$(RETPOLINE_CFLAGS_GCC),$(call cc-option,$(RETPOLINE_CFLAGS_CLANG)))
+$(call cc-option,$(RETPOLINE_VDSO_CFLAGS_GCC),$(call cc-option,$(RETPOLINE_VDSO_CFLAGS_CLANG)))
+$(KCONFIG_CONFIG$$$$$()$)
+$(shell $(CC) -print-file-name=include)
+$(call cc-option,-fmacro-prefix-map=$(srctree)/=)
+$(if $(CONFIG_CPU_BIG_ENDIAN),-mbig-endian,-mlittle-endian)
+$(if $(CONFIG_64BIT),-m64,-m32)
+$(eval $(call config_filename,MODULE_SIG_KEY))
+$(call try-run,\
+		echo "int main() {}" | $(HOSTCC) -xc -o /dev/null $(HOST_LIBELF_LIBS) -,1,0)
+$(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
+$(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
+		     $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
+		     $(net-y) $(net-m) $(libs-y) $(libs-m) $(virt-y)))
+$(sort $(vmlinux-dirs) Documentation \
+		     $(patsubst %/,%,$(filter %/, $(init-) $(core-) \
+			$(drivers-) $(net-) $(libs-) $(virt-))))
+$(patsubst %/, %/built-in.a, $(init-y))
+$(patsubst %/, %/built-in.a, $(core-y))
+$(patsubst %/, %/built-in.a, $(drivers-y))
+$(patsubst %/, %/built-in.a, $(net-y))
+$(patsubst %/, %/lib.a, $(libs-y))
+$(patsubst %/, %/built-in.a, $(filter-o
+ut %.a, $(libs-y)))
+$(patsubst %/, %/built-in.a, $(virt-y))
+$(sort $(filter-out arch/%,$(vmlinux-alldirs)) LICENSES arch include scripts tools)
+$(if $(CONFIG_TRIM_UNUSED_KSYMS), include/generated/autoksyms.h)
+$(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
+$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
+$(sort $(vmlinux-deps))
+$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))
+$(shell                         \
+	expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + 0$(SUBLEVEL))
+$(if $(wildcard $(srctree)/arch/$(SRCARCH)/include/uapi/asm/Kbuild),, \
+	  $(error Headers not exportable for the $(SRCARCH) architecture))
+$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
+$(wildcard $(srctree)/arch/$(SRCARCH)/boot/dts/)
+$(if $(KBUILD_BUILTIN),vmlinux)
+$(addsuffix /$@, $(vmlinux-dirs))
+$(addprefix _modbuiltin_, $(vmlinux-dirs))
+$(addsuffix /$@, $(vmlinux-dirs))
+$(abspath $(srctree))
+$(addprefix _clean_, . $(vmlinux-alldirs))
+$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) clean)
+$(wildcard $(MRPROPER_DIRS))
+$(wildcard $(MRPROPER_FILES))
+$(wildcard $(DISTCLEAN_DIRS))
+$(wildcard $(DISTCLEAN_FILES))
+$(wildcard $(srctree)/arch/$(SRCARCH)/configs/*_defconfig)
+$(sort $(notdir $(boards)))
+$(dir $(wildcard $(srctree)/arch/$(SRCARCH)/configs/*/*_defconfig))
+$(sort $(notdir $(board-dirs:/=)))
+$(if $(dtstree), \
+		echo 'Devicetree:'; \
+		echo '* dtbs            - Build device tree blobs for enabled boards'; \
+		echo '  dtbs_install    - Install dtbs to $(INSTALL_DTBS_PATH)'; \
+		echo '')
+$(if $(archhelp),$(archhelp),\
+		echo '  No architecture specific help defined for $(SRCARCH)')
+$(if $(boards), \
+		$(foreach b, $(boards), \
+		printf "  %-24s - Build for %s\\n" $(b) $(subst _defconfig,,$(b));) \
+		echo '')
+$(if $(board-dirs), \
+		$(foreach b, $(board-dirs), \
+		printf "  %-16s - Show %s-specific targets\\n" help-$(b) $(b);) \
+		printf "  %-16s - Show all of the above\\n" help-boards; \
+		echo '')
+$(addprefix help-,$(board-dirs))
+$(sort $(notdir $(wildcard $(srctree)/arch/$(SRCARCH)/configs/$*/*_defconfig)))
+$(if $(boards-per-dir), \
+		$(foreach b, $(boards-per-dir), \
+		printf "  %-24s - Build for %s\\n" $*/$(b) $(subst _defconfig,,$(b));) \
+		echo '')
+$(abspath $(srctree)/scripts/gdb/vmlinux-gdb.py)
+$(addprefix _module_,$(KBUILD_EXTMOD))
+$(if $(INSTALL_MOD_DIR),$(INSTALL_MOD_DIR),extra)
+$(addprefix _clean_,$(KBUILD_EXTMOD))
+$(if $(KBUILD_EXTMOD), $(KBUILD_EXTMOD), .)
+$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))
+$(filter --j% -j,$(MAKEFLAGS))
+$(abspath $(objtree))
+$(filter --j% -j,$(MAKEFLAGS))
+$(abspath $(objtree))
+$(if $(KBUILD_EXTMOD), $(KBUILD_EXTMOD)/)
+$(patsubst %/,%,$(dir $(build-target)))
+$(if $(wildcard $(rm-dirs)),CLEAN   $(wildcard $(rm-dirs)))
+$(if $(wildcard $(rm-files)),CLEAN   $(wildcard $(rm-files)))
+$(wildcard $(sort $(targets)))
+$(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
+asdasd:

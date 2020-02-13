@@ -1,0 +1,126 @@
+
+!:
+	#$@
+
+@:
+	#$@
+
+#:
+	#$@
+
+
+# I think dollar sign will literally glob whatever character follows it, and 
+# This is legal syntax, but expands to an empty variable and causes an error
+$ :
+
+# # This is legal and expands out to '$'
+# $$ :
+# 	#$@hi
+
+# This is legal and expands out to '$'
+$$$a :
+	#$@
+
+# %:
+# 	#$@
+
+^: $$
+	#$@
+
+&:
+	#$@
+
+*:
+	#$@
+
+(:
+	#$@
+
+):
+	#$@
+
+
+
+_:
+	#$@
+
++:
+	#$@
+
+{:
+	#$@
+
+}:
+	#$@
+
+|:
+	#$@
+
+[:
+	#$@
+
+
+]:
+	#$@
+
+# Not Valid
+# Backslash sometimes escapes?
+# \:
+# 	#$@
+
+\\:
+	#$@ hello
+
+# Not Valid
+# The second form is generated if the line has a semicolon as the first non-whitespace character; make interprets this to mean you left out the "target: prerequisite" section of a rule
+
+;:
+	#$@
+
+# Not valid
+# ::
+# 	#$@
+
+
+': $(semicolon)
+	#$@
+
+,:
+	#$@
+
+.:
+	#$@
+
+/:
+	#$@
+
+# https://www.gnu.org/software/make/manual/make.html#Wildcards
+
+# The character ‘~’ at the beginning of a file name also has special
+# significance. If alone, or followed by a slash, it represents your home
+# directory. For example ~/bin expands to /home/you/bin. If the ‘~’ is followed
+# by a word, the string represents the home directory of the user named by that
+# word. For example ~john/bin expands to /home/john/bin. On systems which don’t
+# have a home directory for each user (such as MS-DOS or MS-Windows), this
+# functionality can be simulated by setting the environment variable HOME
+
+# This isn't illegal, but I can't seem to figure out how to hit this target
+# ~:
+# 	#$@
+
+`:
+	#$@
+
+":
+	#$@
+
+-:
+	#$@
+
+<:
+	#$@
+>:
+	#$@
+?:
+	#$@
+
